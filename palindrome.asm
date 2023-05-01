@@ -1,50 +1,47 @@
-.MODEL SMALL
-.STACK 100H
-.DATA ; The string to be printed
-STRING DB 'Madam', '$'
-STRING1 DB 'String is palindrome', '$' STRING2 DB 'String is not palindrome', '$' .CODE
-MAIN PROC FAR
-MOV AX, @DATA
-MOV DS, AX
-; check if the string is;
-;palindrome or not
-CALL Palindrome
-;interrupt to exit
-MOV AH, 4CH
-INT 21H
-MAIN ENDP
-Palindrome PROC
-; load the starting address
-; of the string
-MOV SI, OFFSET STRING
-; traverse to the end of;
-;the string
-LOOP1 :
-MOV AX, [SI]
-CMP AL, '$'
-JE LABEL1
-INC SI
-JMP LOOP1
-;load the starting address; ;of the string
-LABEL1 :
-MOV DI, OFFSET STRING DEC SI
-; check if the string is palindrome; ;or not
-LOOP2 :
-CMP SI, DI
-JL OUTPUT1 MOV AX, [SI] MOV BX, [DI] CMP AL, BL JNE OUTPUT2 DEC SI
-INC DI
-JMP LOOP2
-OUTPUT1:
-;load address of the string LEA DX,STRING1
-; output the string; ;loaded in dx
-MOV AH, 09H
-INT 21H
-RET
-OUTPUT2:
-;load address of the string LEA DX,STRING2
-; output the string
-
-; loaded in dx MOV AH,09H
-INT 21H
-RET
-Palindrome ENDP END MAIN
+.model small
+.stack 100h
+.data ; the string to that is to be printed
+string db 'madam','$'
+string1 db 'String is palindrome','$'
+string2 db 'String is not palindrome','$'
+.code
+main proc far
+mov ax, @data
+mov ds, ax ; check if the string is palindrome or not 
+call palindrome
+mov ah, 4ch ; interrupt to exit
+int 21h
+main endp
+palindrome proc ; load the starting address of the string 
+mov si, offset string ; traverse to the end of the string 
+loop1:
+mov ax, [si]
+cmp al, '$'
+je label1
+inc si
+jmp loop1 ; load the starting address of the string 
+label1 :
+mov di, offset string
+dec si ; check if the string is palindrome or not 
+loop2:
+cmp si, di
+jl output1
+mov ax, [si]
+mov bx, [di]
+cmp al, bl
+jne output2
+dec si
+inc di
+jmp loop2
+output1: ; load address of the string 
+lea dx, string1 ; output the string that is loaded in dx
+mov ah, 09h
+int 21h
+ret
+output2: ; load address of the string 
+lea dx, string2 ; output the string loaded in dx 
+mov ah, 09h
+int 21h
+ret
+palindrome endp
+end main
