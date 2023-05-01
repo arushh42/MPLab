@@ -25,7 +25,6 @@ CMP AL, '$'
 JE LABEL1
 INC SI
 JMP LOOP1
-
 ;load the starting address; ;of the string
 LABEL1 :
 MOV DI, OFFSET STRING DEC SI
